@@ -1,19 +1,30 @@
-import { useState, useRef } from 'react';
-import { Upload, X, ZoomIn, ZoomOut, Download, AlertCircle, CheckCircle, Info } from 'lucide-react';
-import { Button } from './ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
-import { Navigation } from './Navigation';
-import { Progress } from './ui/progress';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
-import { Alert, AlertDescription, AlertTitle } from './ui/alert';
+import { useState, useRef } from "react";
+import {
+  Upload,
+  X,
+  ZoomIn,
+  ZoomOut,
+  Download,
+  AlertCircle,
+  CheckCircle,
+  Info,
+} from "lucide-react";
+import { Button } from "./ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "./ui/card";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import Navigation from "./Navigation";
+import { Progress } from "./ui/progress";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 
-interface MammographAnalyzerProps {
-  onNavigate: (view: 'dashboard' | 'analyzer' | 'patients') => void;
-}
-
-export function MammographAnalyzer({ onNavigate }: MammographAnalyzerProps) {
+export function MammographAnalyzer() {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisComplete, setAnalysisComplete] = useState(false);
@@ -35,7 +46,7 @@ export function MammographAnalyzer({ onNavigate }: MammographAnalyzerProps) {
   const handleAnalyze = () => {
     setIsAnalyzing(true);
     setProgress(0);
-    
+
     // Simulate analysis progress
     const interval = setInterval(() => {
       setProgress((prev) => {
@@ -51,29 +62,41 @@ export function MammographAnalyzer({ onNavigate }: MammographAnalyzerProps) {
   };
 
   const mockResults = {
-    overall: 'Suspicious Area Detected',
+    overall: "Suspicious Area Detected",
     confidence: 87.2,
-    birads: 'BI-RADS 4',
+    birads: "BI-RADS 4",
     findings: [
-      { type: 'Mass', location: 'Upper outer quadrant, left breast', size: '12mm', severity: 'moderate' },
-      { type: 'Calcification', location: 'Central region, left breast', size: '5mm cluster', severity: 'mild' },
+      {
+        type: "Mass",
+        location: "Upper outer quadrant, left breast",
+        size: "12mm",
+        severity: "moderate",
+      },
+      {
+        type: "Calcification",
+        location: "Central region, left breast",
+        size: "5mm cluster",
+        severity: "mild",
+      },
     ],
     recommendations: [
-      'Additional diagnostic mammographic views recommended',
-      'Consider ultrasound examination',
-      'Consult with radiologist for further evaluation',
-      'Follow-up appointment within 2 weeks',
+      "Additional diagnostic mammographic views recommended",
+      "Consider ultrasound examination",
+      "Consult with radiologist for further evaluation",
+      "Follow-up appointment within 2 weeks",
     ],
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navigation activeView="analyzer" onNavigate={onNavigate} />
-      
+      <Navigation />
+
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h1 className="text-gray-900 mb-2">Mammograph Analyzer</h1>
-          <p className="text-gray-600">Upload and analyze mammographic images for breast cancer detection</p>
+          <p className="text-gray-600">
+            Upload and analyze mammographic images for breast cancer detection
+          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -107,7 +130,9 @@ export function MammographAnalyzer({ onNavigate }: MammographAnalyzerProps) {
             <Card>
               <CardHeader>
                 <CardTitle>Upload Mammograph</CardTitle>
-                <CardDescription>Support for DICOM, PNG, JPG formats</CardDescription>
+                <CardDescription>
+                  Support for DICOM, PNG, JPG formats
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div
@@ -133,7 +158,11 @@ export function MammographAnalyzer({ onNavigate }: MammographAnalyzerProps) {
                       onClick={handleAnalyze}
                       disabled={isAnalyzing || analysisComplete}
                     >
-                      {isAnalyzing ? 'Analyzing...' : analysisComplete ? 'Analysis Complete' : 'Start Analysis'}
+                      {isAnalyzing
+                        ? "Analyzing..."
+                        : analysisComplete
+                        ? "Analysis Complete"
+                        : "Start Analysis"}
                     </Button>
                   </div>
                 )}
@@ -156,7 +185,9 @@ export function MammographAnalyzer({ onNavigate }: MammographAnalyzerProps) {
                 <div className="flex items-center justify-between">
                   <div>
                     <CardTitle>Image Viewer</CardTitle>
-                    <CardDescription>Mammographic image with AI detection overlay</CardDescription>
+                    <CardDescription>
+                      Mammographic image with AI detection overlay
+                    </CardDescription>
                   </div>
                   {uploadedImage && (
                     <div className="flex space-x-2">
@@ -175,7 +206,10 @@ export function MammographAnalyzer({ onNavigate }: MammographAnalyzerProps) {
               </CardHeader>
               <CardContent>
                 {uploadedImage ? (
-                  <div className="relative bg-black rounded-lg overflow-hidden" style={{ minHeight: '500px' }}>
+                  <div
+                    className="relative bg-black rounded-lg overflow-hidden"
+                    style={{ minHeight: "500px" }}
+                  >
                     <img
                       src={uploadedImage}
                       alt="Mammograph"
@@ -198,7 +232,10 @@ export function MammographAnalyzer({ onNavigate }: MammographAnalyzerProps) {
                     )}
                   </div>
                 ) : (
-                  <div className="bg-gray-100 rounded-lg flex items-center justify-center" style={{ minHeight: '500px' }}>
+                  <div
+                    className="bg-gray-100 rounded-lg flex items-center justify-center"
+                    style={{ minHeight: "500px" }}
+                  >
                     <div className="text-center">
                       <Upload className="h-16 w-16 text-gray-400 mx-auto mb-4" />
                       <p className="text-gray-600">No image uploaded</p>
@@ -213,37 +250,52 @@ export function MammographAnalyzer({ onNavigate }: MammographAnalyzerProps) {
               <Card>
                 <CardHeader>
                   <CardTitle>Analysis Results</CardTitle>
-                  <CardDescription>AI-powered detection and assessment</CardDescription>
+                  <CardDescription>
+                    AI-powered detection and assessment
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <Tabs defaultValue="summary">
                     <TabsList className="grid w-full grid-cols-3">
                       <TabsTrigger value="summary">Summary</TabsTrigger>
                       <TabsTrigger value="findings">Findings</TabsTrigger>
-                      <TabsTrigger value="recommendations">Recommendations</TabsTrigger>
+                      <TabsTrigger value="recommendations">
+                        Recommendations
+                      </TabsTrigger>
                     </TabsList>
 
                     <TabsContent value="summary" className="space-y-4">
                       <Alert>
                         <AlertCircle className="h-4 w-4" />
-                        <AlertTitle>Assessment: {mockResults.overall}</AlertTitle>
+                        <AlertTitle>
+                          Assessment: {mockResults.overall}
+                        </AlertTitle>
                         <AlertDescription>
-                          Confidence Level: {mockResults.confidence}% | Classification: {mockResults.birads}
+                          Confidence Level: {mockResults.confidence}% |
+                          Classification: {mockResults.birads}
                         </AlertDescription>
                       </Alert>
 
                       <div className="grid grid-cols-2 gap-4">
                         <div className="p-4 bg-blue-50 rounded-lg">
-                          <p className="text-gray-600 mb-1">Overall Classification</p>
+                          <p className="text-gray-600 mb-1">
+                            Overall Classification
+                          </p>
                           <p className="text-gray-900">{mockResults.birads}</p>
                         </div>
                         <div className="p-4 bg-blue-50 rounded-lg">
                           <p className="text-gray-600 mb-1">Confidence Score</p>
-                          <p className="text-gray-900">{mockResults.confidence}%</p>
+                          <p className="text-gray-900">
+                            {mockResults.confidence}%
+                          </p>
                         </div>
                         <div className="p-4 bg-blue-50 rounded-lg">
-                          <p className="text-gray-600 mb-1">Findings Detected</p>
-                          <p className="text-gray-900">{mockResults.findings.length} Areas</p>
+                          <p className="text-gray-600 mb-1">
+                            Findings Detected
+                          </p>
+                          <p className="text-gray-900">
+                            {mockResults.findings.length} Areas
+                          </p>
                         </div>
                         <div className="p-4 bg-blue-50 rounded-lg">
                           <p className="text-gray-600 mb-1">Analysis Date</p>
@@ -259,9 +311,9 @@ export function MammographAnalyzer({ onNavigate }: MammographAnalyzerProps) {
                             <h3 className="text-gray-900">{finding.type}</h3>
                             <span
                               className={`px-2 py-1 rounded ${
-                                finding.severity === 'moderate'
-                                  ? 'bg-orange-100 text-orange-800'
-                                  : 'bg-yellow-100 text-yellow-800'
+                                finding.severity === "moderate"
+                                  ? "bg-orange-100 text-orange-800"
+                                  : "bg-yellow-100 text-yellow-800"
                               }`}
                             >
                               {finding.severity}
@@ -284,13 +336,17 @@ export function MammographAnalyzer({ onNavigate }: MammographAnalyzerProps) {
                         <Info className="h-4 w-4" />
                         <AlertTitle>Clinical Recommendations</AlertTitle>
                         <AlertDescription>
-                          The following actions are suggested based on AI analysis
+                          The following actions are suggested based on AI
+                          analysis
                         </AlertDescription>
                       </Alert>
 
                       <ul className="space-y-2">
                         {mockResults.recommendations.map((rec, index) => (
-                          <li key={index} className="flex items-start space-x-2">
+                          <li
+                            key={index}
+                            className="flex items-start space-x-2"
+                          >
                             <CheckCircle className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
                             <span className="text-gray-700">{rec}</span>
                           </li>
@@ -299,7 +355,9 @@ export function MammographAnalyzer({ onNavigate }: MammographAnalyzerProps) {
 
                       <div className="flex space-x-3 mt-6">
                         <Button className="flex-1">Generate Report</Button>
-                        <Button variant="outline" className="flex-1">Save to Records</Button>
+                        <Button variant="outline" className="flex-1">
+                          Save to Records
+                        </Button>
                       </div>
                     </TabsContent>
                   </Tabs>

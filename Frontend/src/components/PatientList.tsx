@@ -1,71 +1,73 @@
-import { useState } from 'react';
-import { Search, Filter, UserPlus, FileText, Calendar } from 'lucide-react';
-import { Button } from './ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
-import { Input } from './ui/input';
-import { Navigation } from './Navigation';
+import { useState } from "react";
+import { Search, Filter, UserPlus, FileText, Calendar } from "lucide-react";
+import { Button } from "./ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "./ui/card";
+import { Input } from "./ui/input";
+import Navigation from "./Navigation";
 
-interface PatientListProps {
-  onNavigate: (view: 'dashboard' | 'analyzer' | 'patients') => void;
-}
-
-export function PatientList({ onNavigate }: PatientListProps) {
-  const [searchTerm, setSearchTerm] = useState('');
+export function PatientList() {
+  const [searchTerm, setSearchTerm] = useState("");
 
   const patients = [
     {
-      id: 'PT-2847',
-      name: 'Sarah Johnson',
+      id: "PT-2847",
+      name: "Sarah Johnson",
       age: 52,
-      lastScan: '2025-11-12',
+      lastScan: "2025-11-12",
       totalScans: 5,
-      status: 'Active',
-      riskLevel: 'Low',
+      status: "Active",
+      riskLevel: "Low",
     },
     {
-      id: 'PT-2846',
-      name: 'Maria Garcia',
+      id: "PT-2846",
+      name: "Maria Garcia",
       age: 48,
-      lastScan: '2025-11-12',
+      lastScan: "2025-11-12",
       totalScans: 3,
-      status: 'Pending Review',
-      riskLevel: 'Moderate',
+      status: "Pending Review",
+      riskLevel: "Moderate",
     },
     {
-      id: 'PT-2845',
-      name: 'Jennifer Lee',
+      id: "PT-2845",
+      name: "Jennifer Lee",
       age: 61,
-      lastScan: '2025-11-11',
+      lastScan: "2025-11-11",
       totalScans: 8,
-      status: 'Active',
-      riskLevel: 'Low',
+      status: "Active",
+      riskLevel: "Low",
     },
     {
-      id: 'PT-2844',
-      name: 'Patricia Martinez',
+      id: "PT-2844",
+      name: "Patricia Martinez",
       age: 45,
-      lastScan: '2025-11-11',
+      lastScan: "2025-11-11",
       totalScans: 2,
-      status: 'Follow-up Required',
-      riskLevel: 'High',
+      status: "Follow-up Required",
+      riskLevel: "High",
     },
     {
-      id: 'PT-2843',
-      name: 'Linda Brown',
+      id: "PT-2843",
+      name: "Linda Brown",
       age: 58,
-      lastScan: '2025-11-10',
+      lastScan: "2025-11-10",
       totalScans: 6,
-      status: 'Active',
-      riskLevel: 'Low',
+      status: "Active",
+      riskLevel: "Low",
     },
     {
-      id: 'PT-2842',
-      name: 'Elizabeth Davis',
+      id: "PT-2842",
+      name: "Elizabeth Davis",
       age: 54,
-      lastScan: '2025-11-09',
+      lastScan: "2025-11-09",
       totalScans: 4,
-      status: 'Active',
-      riskLevel: 'Moderate',
+      status: "Active",
+      riskLevel: "Moderate",
     },
   ];
 
@@ -77,14 +79,16 @@ export function PatientList({ onNavigate }: PatientListProps) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navigation activeView="patients" onNavigate={onNavigate} />
-      
+      <Navigation />
+
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-gray-900 mb-2">Patient Records</h1>
-              <p className="text-gray-600">Manage and view patient information and screening history</p>
+              <p className="text-gray-600">
+                Manage and view patient information and screening history
+              </p>
             </div>
             <Button>
               <UserPlus className="h-4 w-4 mr-2" />
@@ -118,39 +122,59 @@ export function PatientList({ onNavigate }: PatientListProps) {
         <Card>
           <CardHeader>
             <CardTitle>All Patients ({filteredPatients.length})</CardTitle>
-            <CardDescription>Complete list of registered patients</CardDescription>
+            <CardDescription>
+              Complete list of registered patients
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
                   <tr className="border-b">
-                    <th className="text-left py-3 px-4 text-gray-600">Patient ID</th>
+                    <th className="text-left py-3 px-4 text-gray-600">
+                      Patient ID
+                    </th>
                     <th className="text-left py-3 px-4 text-gray-600">Name</th>
                     <th className="text-left py-3 px-4 text-gray-600">Age</th>
-                    <th className="text-left py-3 px-4 text-gray-600">Last Scan</th>
-                    <th className="text-left py-3 px-4 text-gray-600">Total Scans</th>
-                    <th className="text-left py-3 px-4 text-gray-600">Status</th>
-                    <th className="text-left py-3 px-4 text-gray-600">Risk Level</th>
-                    <th className="text-left py-3 px-4 text-gray-600">Actions</th>
+                    <th className="text-left py-3 px-4 text-gray-600">
+                      Last Scan
+                    </th>
+                    <th className="text-left py-3 px-4 text-gray-600">
+                      Total Scans
+                    </th>
+                    <th className="text-left py-3 px-4 text-gray-600">
+                      Status
+                    </th>
+                    <th className="text-left py-3 px-4 text-gray-600">
+                      Risk Level
+                    </th>
+                    <th className="text-left py-3 px-4 text-gray-600">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredPatients.map((patient) => (
                     <tr key={patient.id} className="border-b hover:bg-gray-50">
                       <td className="py-3 px-4 text-gray-900">{patient.id}</td>
-                      <td className="py-3 px-4 text-gray-900">{patient.name}</td>
+                      <td className="py-3 px-4 text-gray-900">
+                        {patient.name}
+                      </td>
                       <td className="py-3 px-4 text-gray-600">{patient.age}</td>
-                      <td className="py-3 px-4 text-gray-600">{patient.lastScan}</td>
-                      <td className="py-3 px-4 text-gray-600">{patient.totalScans}</td>
+                      <td className="py-3 px-4 text-gray-600">
+                        {patient.lastScan}
+                      </td>
+                      <td className="py-3 px-4 text-gray-600">
+                        {patient.totalScans}
+                      </td>
                       <td className="py-3 px-4">
                         <span
                           className={`inline-flex items-center px-2.5 py-0.5 rounded-full ${
-                            patient.status === 'Active'
-                              ? 'bg-green-100 text-green-800'
-                              : patient.status === 'Pending Review'
-                              ? 'bg-yellow-100 text-yellow-800'
-                              : 'bg-red-100 text-red-800'
+                            patient.status === "Active"
+                              ? "bg-green-100 text-green-800"
+                              : patient.status === "Pending Review"
+                              ? "bg-yellow-100 text-yellow-800"
+                              : "bg-red-100 text-red-800"
                           }`}
                         >
                           {patient.status}
@@ -159,11 +183,11 @@ export function PatientList({ onNavigate }: PatientListProps) {
                       <td className="py-3 px-4">
                         <span
                           className={`inline-flex items-center px-2.5 py-0.5 rounded-full ${
-                            patient.riskLevel === 'Low'
-                              ? 'bg-blue-100 text-blue-800'
-                              : patient.riskLevel === 'Moderate'
-                              ? 'bg-orange-100 text-orange-800'
-                              : 'bg-red-100 text-red-800'
+                            patient.riskLevel === "Low"
+                              ? "bg-blue-100 text-blue-800"
+                              : patient.riskLevel === "Moderate"
+                              ? "bg-orange-100 text-orange-800"
+                              : "bg-red-100 text-red-800"
                           }`}
                         >
                           {patient.riskLevel}

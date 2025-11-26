@@ -1,13 +1,10 @@
 import { Activity, Upload, Users, FileText, TrendingUp, AlertTriangle } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
-import { Navigation } from './Navigation';
-
-interface DashboardProps {
-  onNavigate: (view: 'dashboard' | 'analyzer' | 'patients') => void;
-}
-
-export function Dashboard({ onNavigate }: DashboardProps) {
+import { useNavigate } from 'react-router-dom';
+import Navigation from './Navigation';
+export default function Dashboard() {
+  const navigate = useNavigate()
   const stats = [
     {
       title: 'Total Scans',
@@ -84,7 +81,7 @@ export function Dashboard({ onNavigate }: DashboardProps) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navigation activeView="dashboard" onNavigate={onNavigate} />
+      <Navigation />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
@@ -114,7 +111,7 @@ export function Dashboard({ onNavigate }: DashboardProps) {
 
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => onNavigate('analyzer')}>
+          <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => navigate('/analyzer')}>
             <CardContent className="p-6">
               <div className="flex items-center space-x-4">
                 <div className="p-4 bg-blue-100 rounded-lg">
@@ -128,7 +125,7 @@ export function Dashboard({ onNavigate }: DashboardProps) {
             </CardContent>
           </Card>
 
-          <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => onNavigate('patients')}>
+          <Card className="cursor-pointer hover:shadow-lg transition-shadow">
             <CardContent className="p-6">
               <div className="flex items-center space-x-4">
                 <div className="p-4 bg-green-100 rounded-lg">

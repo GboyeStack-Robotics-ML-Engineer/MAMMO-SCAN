@@ -1,16 +1,21 @@
-import { useState } from 'react';
-import { Dashboard } from './components/Dashboard';
-import { MammographAnalyzer } from './components/MammographAnalyzer';
-import { PatientList } from './components/PatientList';
+import Dashboard from "./components/Dashboard";
+import { MammographAnalyzer } from "./components/MammographAnalyzer";
+import { PatientList } from "./components/PatientList";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Homepage from "./components/homepage";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    children: [
+      { index: true, element: <Homepage /> },
+      { path: "dashboard", element: <Dashboard /> },
+      { path: "analyzer", element: <MammographAnalyzer /> },
+      {path: "patients", element: <PatientList/>}
+    ],
+  },
+]);
 
 export default function App() {
-  const [activeView, setActiveView] = useState<'dashboard' | 'analyzer' | 'patients'>('dashboard');
-
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {activeView === 'dashboard' && <Dashboard onNavigate={setActiveView} />}
-      {activeView === 'analyzer' && <MammographAnalyzer onNavigate={setActiveView} />}
-      {activeView === 'patients' && <PatientList onNavigate={setActiveView} />}
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
