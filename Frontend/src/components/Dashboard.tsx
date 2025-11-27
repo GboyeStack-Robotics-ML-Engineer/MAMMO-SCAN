@@ -1,5 +1,4 @@
 import { Activity, Upload, Users, FileText, TrendingUp, AlertTriangle } from 'lucide-react';
-import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card';
 import { useNavigate } from 'react-router-dom';
 import Navigation from './Navigation';
