@@ -9,7 +9,17 @@ import {
   CardDescription,
 } from "./ui/card";
 import { Input } from "./ui/input";
-import Navigation from "./Navigation";
+import NewNavigation from "./NewNavigation";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "./ui/table";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Badge } from "./ui/badge";
 
 export function PatientList() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -23,6 +33,7 @@ export function PatientList() {
       totalScans: 5,
       status: "Active",
       riskLevel: "Low",
+      avatar: "/avatars/01.png",
     },
     {
       id: "PT-2846",
@@ -32,6 +43,7 @@ export function PatientList() {
       totalScans: 3,
       status: "Pending Review",
       riskLevel: "Moderate",
+      avatar: "/avatars/02.png",
     },
     {
       id: "PT-2845",
@@ -41,6 +53,7 @@ export function PatientList() {
       totalScans: 8,
       status: "Active",
       riskLevel: "Low",
+      avatar: "/avatars/03.png",
     },
     {
       id: "PT-2844",
@@ -50,6 +63,7 @@ export function PatientList() {
       totalScans: 2,
       status: "Follow-up Required",
       riskLevel: "High",
+      avatar: "/avatars/04.png",
     },
     {
       id: "PT-2843",
@@ -59,15 +73,7 @@ export function PatientList() {
       totalScans: 6,
       status: "Active",
       riskLevel: "Low",
-    },
-    {
-      id: "PT-2842",
-      name: "Elizabeth Davis",
-      age: 54,
-      lastScan: "2025-11-09",
-      totalScans: 4,
-      status: "Active",
-      riskLevel: "Moderate",
+      avatar: "/avatars/05.png",
     },
   ];
 
@@ -78,139 +84,123 @@ export function PatientList() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navigation />
-
+    <NewNavigation>
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-gray-900 mb-2">Patient Records</h1>
-              <p className="text-gray-600">
-                Manage and view patient information and screening history
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                Patient Records
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400">
+                Manage and view patient information and screening history.
               </p>
             </div>
             <Button>
               <UserPlus className="h-4 w-4 mr-2" />
-              Add Patient
+              Add New Patient
             </Button>
           </div>
         </div>
 
-        {/* Search and Filter */}
-        <Card className="mb-6">
-          <CardContent className="p-6">
-            <div className="flex space-x-4">
-              <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <Input
-                  placeholder="Search by patient name or ID..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-              <Button variant="outline">
-                <Filter className="h-4 w-4 mr-2" />
-                Filter
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Patient List */}
-        <Card>
+        <Card className="shadow-lg">
           <CardHeader>
-            <CardTitle>All Patients ({filteredPatients.length})</CardTitle>
-            <CardDescription>
-              Complete list of registered patients
-            </CardDescription>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle>All Patients</CardTitle>
+                <CardDescription>
+                  {filteredPatients.length} patients found.
+                </CardDescription>
+              </div>
+              <div className="flex items-center space-x-4">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Input
+                    placeholder="Search patients..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
+                <Button variant="outline">
+                  <Filter className="h-4 w-4 mr-2" />
+                  Filters
+                </Button>
+              </div>
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b">
-                    <th className="text-left py-3 px-4 text-gray-600">
-                      Patient ID
-                    </th>
-                    <th className="text-left py-3 px-4 text-gray-600">Name</th>
-                    <th className="text-left py-3 px-4 text-gray-600">Age</th>
-                    <th className="text-left py-3 px-4 text-gray-600">
-                      Last Scan
-                    </th>
-                    <th className="text-left py-3 px-4 text-gray-600">
-                      Total Scans
-                    </th>
-                    <th className="text-left py-3 px-4 text-gray-600">
-                      Status
-                    </th>
-                    <th className="text-left py-3 px-4 text-gray-600">
-                      Risk Level
-                    </th>
-                    <th className="text-left py-3 px-4 text-gray-600">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredPatients.map((patient) => (
-                    <tr key={patient.id} className="border-b hover:bg-gray-50">
-                      <td className="py-3 px-4 text-gray-900">{patient.id}</td>
-                      <td className="py-3 px-4 text-gray-900">
-                        {patient.name}
-                      </td>
-                      <td className="py-3 px-4 text-gray-600">{patient.age}</td>
-                      <td className="py-3 px-4 text-gray-600">
-                        {patient.lastScan}
-                      </td>
-                      <td className="py-3 px-4 text-gray-600">
-                        {patient.totalScans}
-                      </td>
-                      <td className="py-3 px-4">
-                        <span
-                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full ${
-                            patient.status === "Active"
-                              ? "bg-green-100 text-green-800"
-                              : patient.status === "Pending Review"
-                              ? "bg-yellow-100 text-yellow-800"
-                              : "bg-red-100 text-red-800"
-                          }`}
-                        >
-                          {patient.status}
-                        </span>
-                      </td>
-                      <td className="py-3 px-4">
-                        <span
-                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full ${
-                            patient.riskLevel === "Low"
-                              ? "bg-blue-100 text-blue-800"
-                              : patient.riskLevel === "Moderate"
-                              ? "bg-orange-100 text-orange-800"
-                              : "bg-red-100 text-red-800"
-                          }`}
-                        >
-                          {patient.riskLevel}
-                        </span>
-                      </td>
-                      <td className="py-3 px-4">
-                        <div className="flex space-x-2">
-                          <Button variant="ghost" size="sm">
-                            <FileText className="h-4 w-4" />
-                          </Button>
-                          <Button variant="ghost" size="sm">
-                            <Calendar className="h-4 w-4" />
-                          </Button>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Patient</TableHead>
+                  <TableHead>Risk Level</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Last Scan</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredPatients.map((patient) => (
+                  <TableRow key={patient.id}>
+                    <TableCell>
+                      <div className="flex items-center space-x-4">
+                        <Avatar>
+                          <AvatarImage src={patient.avatar} />
+                          <AvatarFallback>
+                            {patient.name.charAt(0)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <div className="font-medium text-gray-900 dark:text-white">
+                            {patient.name}
+                          </div>
+                          <div className="text-sm text-gray-500 dark:text-gray-400">
+                            {patient.id}
+                          </div>
                         </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge
+                        variant={
+                          patient.riskLevel === "Low"
+                            ? "default"
+                            : patient.riskLevel === "Moderate"
+                            ? "secondary"
+                            : "destructive"
+                        }
+                      >
+                        {patient.riskLevel}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Badge
+                        variant={
+                          patient.status === "Active"
+                            ? "default"
+                            : "secondary"
+                        }
+                      >
+                        {patient.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{patient.lastScan}</TableCell>
+                    <TableCell className="text-right">
+                      <Button variant="ghost" size="icon">
+                        <FileText className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="icon">
+                        <Calendar className="h-4 w-4" />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </CardContent>
         </Card>
       </main>
-    </div>
+    </NewNavigation>
   );
 }
