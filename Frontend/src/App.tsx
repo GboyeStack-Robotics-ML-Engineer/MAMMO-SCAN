@@ -1,7 +1,7 @@
 import { MammographAnalyzer } from "./components/MammographAnalyzer";
 import { PatientList } from "./components/PatientList";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Homepage from "./components/homepage";
+import Homepage from "./components/HomePage";
 import NewDashboard from './components/NewDashboard';
 import { NewPatientProvider } from './context/NewPatientContext';
 
