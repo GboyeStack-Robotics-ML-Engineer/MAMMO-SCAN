@@ -57,14 +57,14 @@ export default function NewNavigation({
       >
         <div className="flex items-center justify-between h-16 p-4">
           {!isCollapsed && (
-            <div className="flex items-center space-x-3">
+            <a href="/" className="flex items-center space-x-3 cursor-pointer hover:opacity-80 transition-opacity">
               <div className="w-10 h-10 bg-brand-500 rounded-lg flex items-center justify-center">
                 <Activity className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h2 className="text-white">MammoDetect</h2>
+                <h2 className="text-white">Mammo Scan</h2>
               </div>
-            </div>
+            </a>
           )}
           <Button
             variant="ghost"

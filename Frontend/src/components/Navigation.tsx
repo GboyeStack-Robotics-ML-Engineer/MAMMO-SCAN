@@ -12,15 +12,15 @@ export default function Navigation() {
         <div className="flex items-center justify-between h-16">
           {/* Logo and Brand */}
           <div className="flex items-center space-x-8">
-            <div className="flex items-center space-x-3">
+            <a href="/" className="flex items-center space-x-3 cursor-pointer hover:opacity-80 transition-opacity">
               <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
                 <Activity className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h2 className="text-gray-900">MammoDetect AI</h2>
+                <h2 className="text-gray-900">Mammo Scan</h2>
                 <p className="text-gray-500">Breast Cancer Detection</p>
               </div>
-            </div>
+            </a>
 
             {/* Navigation Links */}
             <div className="hidden md:flex space-x-1">
