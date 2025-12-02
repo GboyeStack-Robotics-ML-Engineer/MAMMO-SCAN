@@ -10,3 +10,11 @@ Backend/venv/
 *.log
 Frontend/build
 Backend/uploads/
+Backend/venv/
+Backend/.env
+Backend/__pycache__/
+Backend/*.pyc
+Backend/*.pyo
+Backend/*sqlite3
+Backend/*sqlite
+
