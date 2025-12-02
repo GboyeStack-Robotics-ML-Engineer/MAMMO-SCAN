@@ -4,7 +4,6 @@ Frontend/build/
 .env
 dist/
 build/
-Backend/__pycache__/
 uploads/
 Backend/venv/
 *.log
