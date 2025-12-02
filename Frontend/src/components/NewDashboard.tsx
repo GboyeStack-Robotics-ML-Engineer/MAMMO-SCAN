@@ -54,21 +54,43 @@ export default function NewDashboard() {
   const navigate = useNavigate();
   const [stats, setStats] = useState([]);
   const [recentAnalyses, setRecentAnalyses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/api/stats")
-      .then((response) => response.json())
-      .then((data) => {
-        const enhancedStats = data.map((stat) => ({
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Fetch stats
+        const statsResponse = await fetch("/api/stats");
+        if (!statsResponse.ok) {
+          throw new Error(`Failed to fetch stats: ${statsResponse.statusText}`);
+        }
+        const statsData = await statsResponse.json();
+        const enhancedStats = statsData.map((stat: any) => ({
           ...stat,
-          ...statDetails[stat.title],
+          ...statDetails[stat.title as keyof typeof statDetails],
         }));
         setStats(enhancedStats);
-      });
 
-    fetch("/api/recent-analyses")
-      .then((response) => response.json())
-      .then((data) => setRecentAnalyses(data));
+        // Fetch recent analyses
+        const analysesResponse = await fetch("/api/recent-analyses");
+        if (!analysesResponse.ok) {
+          throw new Error(`Failed to fetch analyses: ${analysesResponse.statusText}`);
+        }
+        const analysesData = await analysesResponse.json();
+        setRecentAnalyses(analysesData);
+      } catch (err) {
+        console.error("Dashboard fetch error:", err);
+        setError(err instanceof Error ? err.message : "Failed to load dashboard data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
@@ -82,37 +104,68 @@ export default function NewDashboard() {
             Monitor your breast cancer detection analytics and recent activity
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {stats.map((stat) => (
-            <Card
-              key={stat.title}
-              className="bg-white dark:bg-gray-800 shadow-lg rounded-lg"
+
+        {/* Loading State */}
+        {loading && (
+          <div className="flex items-center justify-center py-20">
+            <div className="text-center">
+              <Activity className="h-12 w-12 text-brand-600 animate-spin mx-auto mb-4" />
+              <p className="text-gray-600">Loading dashboard...</p>
+            </div>
+          </div>
+        )}
+
+        {/* Error State */}
+        {error && !loading && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-6 mb-8">
+            <div className="flex items-center gap-3 mb-2">
+              <AlertTriangle className="h-6 w-6 text-red-600" />
+              <h3 className="text-lg font-semibold text-red-900">Error Loading Dashboard</h3>
+            </div>
+            <p className="text-red-700 mb-4">{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
             >
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className={`p-3 rounded-lg ${stat.bgColor}`}>
-                    <stat.icon className={`h-6 w-6 ${stat.color}`} />
-                  </div>
-                  <span
-                    className={`text-sm font-semibold ${
-                      stat.change.startsWith("+")
-                        ? "text-green-500"
-                        : "text-red-500"
-                    }`}
-                  >
-                    {stat.change}
-                  </span>
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
-                  {stat.value}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  {stat.title}
-                </p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+              Retry
+            </button>
+          </div>
+        )}
+
+        {/* Dashboard Content */}
+        {!loading && !error && (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              {stats.map((stat: any) => (
+                <Card
+                  key={stat.title}
+                  className="bg-white dark:bg-gray-800 shadow-lg rounded-lg"
+                >
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className={`p-3 rounded-lg ${stat.bgColor}`}>
+                        <stat.icon className={`h-6 w-6 ${stat.color}`} />
+                      </div>
+                      <span
+                        className={`text-sm font-semibold ${
+                          stat.change.startsWith("+")
+                            ? "text-green-500"
+                            : "text-red-500"
+                        }`}
+                      >
+                        {stat.change}
+                      </span>
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+                      {stat.value}
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400">
+                      {stat.title}
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card
             className="cursor-pointer hover:shadow-xl transition-shadow bg-white dark:bg-gray-800 rounded-lg"
@@ -181,32 +234,44 @@ export default function NewDashboard() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="text-gray-600 dark:text-gray-400">
-                      Analysis ID
-                    </TableHead>
-                    <TableHead className="text-gray-600 dark:text-gray-400">
-                      Patient ID
-                    </TableHead>
-                    <TableHead className="text-gray-600 dark:text-gray-400">
-                      Date & Time
-                    </TableHead>
-                    <TableHead className="text-gray-600 dark:text-gray-400">
-                      Result
-                    </TableHead>
-                    <TableHead className="text-gray-600 dark:text-gray-400">
-                      Confidence
-                    </TableHead>
-                    <TableHead className="text-gray-600 dark:text-gray-400">
-                      Status
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {recentAnalyses.map((analysis) => (
+            {recentAnalyses.length === 0 ? (
+              <div className="text-center py-12">
+                <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                <p className="text-gray-600 dark:text-gray-400">No recent analyses found</p>
+                <button
+                  onClick={() => navigate("/analyzer")}
+                  className="mt-4 px-4 py-2 bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition-colors"
+                >
+                  Start New Analysis
+                </button>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="text-gray-600 dark:text-gray-400">
+                        Analysis ID
+                      </TableHead>
+                      <TableHead className="text-gray-600 dark:text-gray-400">
+                        Patient ID
+                      </TableHead>
+                      <TableHead className="text-gray-600 dark:text-gray-400">
+                        Date & Time
+                      </TableHead>
+                      <TableHead className="text-gray-600 dark:text-gray-400">
+                        Result
+                      </TableHead>
+                      <TableHead className="text-gray-600 dark:text-gray-400">
+                        Confidence
+                      </TableHead>
+                      <TableHead className="text-gray-600 dark:text-gray-400">
+                        Status
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {recentAnalyses.map((analysis: any) => (
                     <TableRow
                       key={analysis.id}
                       className="hover:bg-gray-50 dark:hover:bg-gray-700"
@@ -254,8 +319,11 @@ export default function NewDashboard() {
                 </TableBody>
               </Table>
             </div>
+            )}
           </CardContent>
         </Card>
+        </>
+        )}
       </main>
     </NewNavigation>
   );

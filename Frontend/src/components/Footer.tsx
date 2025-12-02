@@ -13,17 +13,17 @@ export default function Footer() {
         
         {/* Centralized CTA Card */}
         <div className="relative -mt-48 mb-20">
-           <div className="max-w-5xl mx-auto bg-linear-to-br from-slate-900 to-slate-800 rounded-[2.5rem] p-8 md:p-16 text-center border border-white/10 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] overflow-hidden">
+           <div className="max-w-5xl mx-auto bg-gradient-to-br from-slate-900 to-slate-800 rounded-[2.5rem] p-8 md:p-16 text-center border border-white/10 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] overflow-hidden">
               
               {/* Card Glow Effects */}
-              <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-brand-500 to-transparent opacity-50"></div>
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-500 to-transparent opacity-50"></div>
               <div className="absolute -top-[100px] -right-[100px] w-64 h-64 bg-brand-500/20 rounded-full blur-[80px]"></div>
               <div className="absolute -bottom-[100px] -left-[100px] w-64 h-64 bg-purple-500/20 rounded-full blur-[80px]"></div>
 
               <div className="relative z-10 top-10 pb-8">
                  <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
                     Ready to transform <br/>
-                    <span className="text-transparent bg-clip-text bg-linear-to-r from-brand-300 to-cyan-300">healthcare access?</span>
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-300 to-cyan-300">healthcare access?</span>
                  </h2>
                  <p className="text-slate-300 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
                     We are actively seeking pilot clinics in Nigeria for our Q3 2025 beta program. Join the movement to democratize early detection.

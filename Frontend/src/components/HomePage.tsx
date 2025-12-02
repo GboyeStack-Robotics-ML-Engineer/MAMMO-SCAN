@@ -1,7 +1,9 @@
 import Header from "./Header";
 import Hero from "./Hero";
 import ProblemSolution from "./ProblemSolution";
-import Features from "./Features";
+import StatsCounter from "./StatsCounter";
+import InteractiveDemo from "./InteractiveDemo";
+import TestimonialsCarousel from "./TestimonialsCarousel";
 import Team from "./Team";
 import Footer from "./Footer";
 
@@ -11,8 +13,10 @@ export default function Homepage() {
       <Header />
       <main>
         <Hero />
+        <StatsCounter />
         <ProblemSolution />
-        <Features />
+        <InteractiveDemo />
+        <TestimonialsCarousel />
         <Team />
       </main>
       <Footer />

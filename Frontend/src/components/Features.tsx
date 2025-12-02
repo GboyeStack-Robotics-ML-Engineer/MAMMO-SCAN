@@ -1,12 +1,16 @@
 import { Brain, Zap, Lock, Microscope, Users, ArrowRight, Wifi, WifiOff } from 'lucide-react';
 import { SectionId } from '../types';
+import { MedicalScene } from './three/MedicalScene';
 
 export default function Features() {
-  return (
-    <section id={SectionId.FEATURES} className="py-24 bg-slate-50 relative overflow-hidden">
-       {/* Decorative blobs */}
-       <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-brand-200/20 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
-       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-purple-200/20 rounded-full blur-[120px] translate-x-1/2 translate-y-1/2 pointer-events-none"></div>
+   return (
+      <section id={SectionId.FEATURES} className="py-24 bg-slate-50 relative overflow-hidden">
+         <div className="absolute inset-0 pointer-events-none hidden lg:block opacity-30">
+            <MedicalScene className="w-full h-full" glowColor="#6366f1" ambientIntensity={0.5} disableControls={false} />
+         </div>
+          {/* Decorative blobs */}
+          <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-brand-200/20 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+          <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-purple-200/20 rounded-full blur-[120px] translate-x-1/2 translate-y-1/2 pointer-events-none"></div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-6">
@@ -30,7 +34,7 @@ export default function Features() {
         <div className="grid grid-cols-1 md:grid-cols-6 gap-6 grid-rows-[auto_auto_auto]">
           
           {/* Main Feature - The Brain */}
-          <div className="md:col-span-4 row-span-2 bg-white rounded-4xl p-8 md:p-10 shadow-sm border border-slate-200 hover:shadow-xl transition-all duration-300 group overflow-hidden relative">
+               <div className="md:col-span-4 row-span-2 bg-white/80 backdrop-blur-md rounded-4xl p-8 md:p-10 shadow-sm border border-slate-200 hover:shadow-xl transition-all duration-300 group overflow-hidden relative">
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-linear-to-br from-brand-50 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 group-hover:scale-105 transition-transform duration-700"></div>
             
             <div className="relative z-10 h-full flex flex-col justify-between">
@@ -68,6 +72,10 @@ export default function Features() {
                       <span className="text-slate-600">llm:</span>
                       <span className="typing-effect">"Findings consistent with early-stage ductal carcinoma..."</span>
                    </div>
+
+                        <div className="absolute inset-0 opacity-20 pointer-events-none hidden xl:block">
+                           <MedicalScene className="w-full h-full" glowColor="#22d3ee" ambientIntensity={0.4} />
+                        </div>
                 </div>
               </div>
             </div>
