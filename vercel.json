@@ -3,5 +3,15 @@
   "buildCommand": "cd Frontend && npm install && npm run build",
   "outputDirectory": "Frontend/build",
   "installCommand": "cd Frontend && npm install",
-  "framework": null
+  "framework": null,
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://mammo-scan.onrender.com/api/:path*"
+    },
+    {
+      "source": "/uploads/:path*",
+      "destination": "https://mammo-scan.onrender.com/uploads/:path*"
+    }
+  ]
 }
