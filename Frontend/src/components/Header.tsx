@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Activity, Menu, X } from 'lucide-react';
-import ButtonOn from './ui/ButtonOn';
+import { ButtonOn } from './ui/ButtonOn';
 import { SectionId } from '../types';
 
 export default function Header() {

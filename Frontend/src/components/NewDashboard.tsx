@@ -1,31 +1,22 @@
 import {
   Activity,
   AlertTriangle,
-  ArrowUpRight,
-  BookUser,
   FileText,
   TrendingUp,
   Upload,
   Users,
 } from "lucide-react";
-import { BarChart, Bar, XAxis, YAxis } from "recharts";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "./ui/chart";
 import {
   Table,
   TableBody,
@@ -36,113 +27,49 @@ import {
 } from "./ui/table";
 import NewNavigation from "./NewNavigation";
 
+const statDetails = {
+  "Total Scans": {
+    icon: FileText,
+    color: "text-blue-600",
+    bgColor: "bg-blue-100",
+  },
+  "Active Patients": {
+    icon: Users,
+    color: "text-green-600",
+    bgColor: "bg-green-100",
+  },
+  "Pending Reviews": {
+    icon: AlertTriangle,
+    color: "text-orange-600",
+    bgColor: "bg-orange-100",
+  },
+  "Detection Rate": {
+    icon: TrendingUp,
+    color: "text-purple-600",
+    bgColor: "bg-purple-100",
+  },
+};
+
 export default function NewDashboard() {
   const navigate = useNavigate();
-  const stats = [
-    {
-      title: "Total Scans",
-      value: "1,247",
-      change: "+12.5%",
-      icon: FileText,
-      color: "text-blue-600",
-      bgColor: "bg-blue-100",
-      chartData: [
-        { month: "January", value: 186 },
-        { month: "February", value: 305 },
-        { month: "March", value: 237 },
-        { month: "April", value: 73 },
-        { month: "May", value: 209 },
-        { month: "June", value: 214 },
-      ],
-    },
-    {
-      title: "Active Patients",
-      value: "892",
-      change: "+8.2%",
-      icon: Users,
-      color: "text-green-600",
-      bgColor: "bg-green-100",
-      chartData: [
-        { month: "January", value: 186 },
-        { month: "February", value: 305 },
-        { month: "March", value: 237 },
-        { month: "April", value: 73 },
-        { month: "May", value: 209 },
-        { month: "June", value: 214 },
-      ],
-    },
-    {
-      title: "Pending Reviews",
-      value: "23",
-      change: "-5.1%",
-      icon: AlertTriangle,
-      color: "text-orange-600",
-      bgColor: "bg-orange-100",
-      chartData: [
-        { month: "January", value: 186 },
-        { month: "February", value: 305 },
-        { month: "March", value: 237 },
-        { month: "April", value: 73 },
-        { month: "May", value: 209 },
-        { month: "June", value: 214 },
-      ],
-    },
-    {
-      title: "Detection Rate",
-      value: "94.8%",
-      change: "+2.3%",
-      icon: TrendingUp,
-      color: "text-purple-600",
-      bgColor: "bg-purple-100",
-      chartData: [
-        { month: "January", value: 186 },
-        { month: "February", value: 305 },
-        { month: "March", value: 237 },
-        { month: "April", value: 73 },
-        { month: "May", value: 209 },
-        { month: "June", value: 214 },
-      ],
-    },
-  ];
+  const [stats, setStats] = useState([]);
+  const [recentAnalyses, setRecentAnalyses] = useState([]);
 
-  const recentAnalyses = [
-    {
-      id: "AN-001",
-      patientId: "PT-2847",
-      date: "2025-11-12",
-      time: "09:15 AM",
-      result: "Normal",
-      confidence: 98.5,
-      status: "Completed",
-    },
-    {
-      id: "AN-002",
-      patientId: "PT-2846",
-      date: "2025-11-12",
-      time: "08:45 AM",
-      result: "Suspicious",
-      confidence: 87.2,
-      status: "Pending Review",
-    },
-    {
-      id: "AN-003",
-      patientId: "PT-2845",
-      date: "2025-11-11",
-      time: "04:30 PM",
-      result: "Normal",
-      confidence: 96.8,
-      status: "Completed",
-    },
-    {
-      id: "AN-004",
-      patientId: "PT-2844",
-      date: "2025-11-11",
-      time: "03:15 PM",
-      result: "Abnormal",
-      confidence: 91.4,
-      status: "Reviewed",
-    },
-  ];
+  useEffect(() => {
+    fetch("/api/stats")
+      .then((response) => response.json())
+      .then((data) => {
+        const enhancedStats = data.map((stat) => ({
+          ...stat,
+          ...statDetails[stat.title],
+        }));
+        setStats(enhancedStats);
+      });
+
+    fetch("/api/recent-analyses")
+      .then((response) => response.json())
+      .then((data) => setRecentAnalyses(data));
+  }, []);
 
   return (
     <NewNavigation>
@@ -285,13 +212,13 @@ export default function NewDashboard() {
                       className="hover:bg-gray-50 dark:hover:bg-gray-700"
                     >
                       <TableCell className="font-medium text-gray-900 dark:text-white">
-                        {analysis.id}
+                        {`AN-${analysis.id}`}
                       </TableCell>
                       <TableCell className="text-gray-900 dark:text-white">
-                        {analysis.patientId}
+                        {`PT-${analysis.patient_id}`}
                       </TableCell>
                       <TableCell className="text-gray-600 dark:text-gray-400">
-                        {analysis.date} {analysis.time}
+                        {new Date(analysis.date).toLocaleString()}
                       </TableCell>
                       <TableCell>
                         <Badge

@@ -2,7 +2,8 @@ import { MammographAnalyzer } from "./components/MammographAnalyzer";
 import { PatientList } from "./components/PatientList";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Homepage from "./components/homepage";
-import NewDashboard from './components/NewDashboard'
+import NewDashboard from './components/NewDashboard';
+import { NewPatientProvider } from './context/NewPatientContext';
 
 const router = createBrowserRouter([
   {
@@ -17,5 +18,9 @@ const router = createBrowserRouter([
 ]);
 
 export default function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <NewPatientProvider>
+      <RouterProvider router={router} />
+    </NewPatientProvider>
+  );
 }

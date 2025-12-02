@@ -1,5 +1,5 @@
 import { ArrowRight, ShieldCheck, Activity } from "lucide-react";
-import Button from "./ui/ButtonOn";
+import { ButtonOn as Button } from "./ui/ButtonOn";
 import { SectionId } from "../types";
 import { useNavigate } from "react-router-dom";
 

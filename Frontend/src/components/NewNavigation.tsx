@@ -20,12 +20,15 @@ import {
 
 export default function NewNavigation({
   children,
+  isCollapsed: externalCollapsed,
 }: {
   children: React.ReactNode;
+  isCollapsed?: boolean;
 }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [internalCollapsed, setInternalCollapsed] = useState(false);
+  const isCollapsed = externalCollapsed ?? internalCollapsed;
 
   const navItems = [
     {
@@ -66,7 +69,7 @@ export default function NewNavigation({
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => setIsCollapsed(!isCollapsed)}
+            onClick={() => setInternalCollapsed(!isCollapsed)}
             className="text-white hover:bg-brand-700"
           >
             {isCollapsed ? <ChevronRight /> : <ChevronLeft />}
