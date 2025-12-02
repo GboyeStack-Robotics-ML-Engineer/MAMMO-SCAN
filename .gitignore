@@ -9,3 +9,4 @@ uploads/
 Backend/venv/
 *.log
 Frontend/build
+Backend/uploads/
